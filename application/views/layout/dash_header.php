@@ -98,7 +98,7 @@
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="<?= site_url('admin'); ?>">Admin</a>
-            <a class="collapse-item" href="utilities-border.html">Pendaftar</a>
+            <a class="collapse-item" href="<?= site_url('pendaftar'); ?>">Pendaftar</a>
         </div>
     </div>
 </li>
