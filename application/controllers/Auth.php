@@ -128,4 +128,44 @@ $this->form_validation->set_rules('gajiWali', 'Gaji Wali');
             }
         }
     }
+
+    public function loginPetugas() {
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            $username = $this->input->post('username');
+            $password = $this->input->post('password');
+    
+            // Ambil data admin berdasarkan username
+            $admin = $this->Auth_model->getAdminByUsername($username);
+    
+            if ($admin && password_verify($password, $admin['password'])) {
+                // Password cocok, simpan data sesi dan alihkan ke dashboard/index
+                $user_data = array(
+                    'idadmin' => $admin['idadmin'],
+                    'username' => $admin['username'],
+                    'nama' => $admin['nama'],
+                    'email' => $admin['email'],
+                    'level' => $admin['level'],
+                );
+                $this->session->set_userdata($user_data);
+    
+                redirect('dashboard/index');
+            } else {
+                // Password salah, tampilkan pesan kesalahan
+                $this->session->set_flashdata('error_message', 'Username atau password salah.');
+                redirect('auth/loginPetugas');
+            }
+        }
+    
+        // Tampilkan halaman login
+        $this->load->view('auth/index'); // Ganti 'login_petugas' dengan nama view yang Anda gunakan
+    }
+
+    public function logout() {
+        // Hapus semua data sesi
+        $this->session->sess_destroy();
+
+        // Alihkan ke halaman login
+        redirect('auth/index');
+    }
+    
 }

@@ -13,4 +13,7 @@ class Auth_model extends CI_Model {
         return $this->db->insert('tbl_pendaftar', $data); // Ubah 'pendaftar' sesuai dengan nama tabel Anda
     }
 
+    public function getAdminByUsername($username) {
+        return $this->db->get_where('tbl_admin', ['username' => $username])->row_array();
+    }
 }

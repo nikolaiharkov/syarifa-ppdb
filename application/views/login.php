@@ -32,9 +32,9 @@
 <button data-bs-toggle="modal" data-bs-target="#daftarModal" class="btn btn-google btn-user btn-block">
         Daftar Sebagai Calon Siswa
     </button>
-<a href="<?php echo base_url('auth/loginPetugas'); ?>" class="btn btn-facebook btn-user btn-block">
+    <button class="btn btn-facebook btn-user btn-block" data-toggle="modal" data-target="#loginModal">
     Login Petugas
-</a>
+</button>
 </div>
                                     <hr>
 <br>
@@ -52,6 +52,31 @@
         </div>
 
     </div>
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Login Petugas</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="<?php echo base_url('auth/loginPetugas'); ?>" method="POST">
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" class="form-control" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" class="form-control" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
     <div class="modal fade" id="daftarModal" tabindex="-1" aria-labelledby="daftarModalLabel" aria-hidden="true">
         <div class="modal-dialog">
