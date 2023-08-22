@@ -167,5 +167,31 @@ $this->form_validation->set_rules('gajiWali', 'Gaji Wali');
         // Alihkan ke halaman login
         redirect('auth/index');
     }
+
+    public function loginUser() {
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            $phoneNumber = $this->input->post('inputPhoneNumber');
+
+            // Periksa nomor telepon pada tabel pendaftar
+            $this->load->model('Pendaftar_model'); // Ganti 'Pendaftar_model' dengan nama model Anda
+            $pendaftar = $this->Auth_model->getPendaftarByPhoneNumber($phoneNumber);
+
+            if ($pendaftar) {
+                // Jika nomor telepon cocok, buat sesi dan alihkan ke halaman tertentu
+                $user_data = array(
+                    'idpendaftar' => $pendaftar['idpendaftar'],
+                    'nama_pendaftar' => $pendaftar['nama_pendaftar'],
+                    'level' => $pendaftar['level'],
+                );
+                $this->session->set_userdata($user_data);
+
+                redirect('dashboard/index'); // Ganti dengan halaman yang sesuai
+            } else {
+                // Jika nomor telepon tidak cocok, tampilkan pesan kesalahan
+                $this->session->set_flashdata('error_message', 'Nomor telepon tidak ditemukan. Pastikan nomor telepon terdaftar.');
+                redirect('auth/index');
+            }
+        }
+    }
     
 }

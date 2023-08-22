@@ -20,7 +20,15 @@
     <link href="<?= base_url('css/sb-admin-2.min.css') ?>" rel="stylesheet">
     <link href="<?= base_url('vendor/datatables/dataTables.bootstrap4.min.css') ?>" rel="stylesheet">
 
+<?php
 
+// check session level if there is no session level back to base_url auth/index
+
+if ($this->session->userdata('level') == '') {
+    redirect(base_url('auth/index'));
+}
+
+?>
 
 </head>
 
@@ -45,6 +53,9 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
+
+            <!-- session 1 -->
+            <?php if ($this->session->userdata('level') == 1): ?>
 
             <!-- Heading -->
             <div class="sidebar-heading">
@@ -112,6 +123,12 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
+            <?php endif; ?>
+
+
+            <!-- session 2 -->
+            <?php if ($this->session->userdata('level') == 2): ?>
+
 
             <!-- Heading -->
             <div class="sidebar-heading">
@@ -155,6 +172,8 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
+            <?php endif; ?>
+
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
