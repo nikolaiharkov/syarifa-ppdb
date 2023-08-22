@@ -83,7 +83,7 @@
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="utilities-color.html">Informasi Siswa</a>
-            <a class="collapse-item" href="utilities-border.html">Informasi Orang Tua</a>
+            <a class="collapse-item" href="<?= site_url('siswa/indexOrtu'); ?>">Informasi Orang Tua</a>
         </div>
     </div>
 </li>
