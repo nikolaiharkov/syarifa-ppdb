@@ -152,7 +152,7 @@ $this->form_validation->set_rules('gajiWali', 'Gaji Wali');
             } else {
                 // Password salah, tampilkan pesan kesalahan
                 $this->session->set_flashdata('error_message', 'Username atau password salah.');
-                redirect('auth/loginPetugas');
+                redirect('auth/index');
             }
         }
     
