@@ -77,8 +77,9 @@ if ($this->session->userdata('level') == '') {
     </a>
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="buttons.html">Formulir</a>
-            <a class="collapse-item" href="cards.html">Biaya Masuk Sekolah</a>
+        <a class="collapse-item" href="<?= site_url('pembayaran/indexKategoriBiaya'); ?>">Management Biaya</a>
+            <a class="collapse-item" href="<?= site_url('pembayaran/indexFormulirAdmin'); ?>">Formulir</a>
+            <a class="collapse-item" href="<?= site_url('pembayaran/indexBMS'); ?>">Biaya Masuk Sekolah</a>
         </div>
     </div>
 </li>
@@ -153,7 +154,7 @@ if ($this->session->userdata('level') == '') {
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="<?= site_url('pembayaran/indexPembayaran'); ?>">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Pembayaran</span></a>
             </li>

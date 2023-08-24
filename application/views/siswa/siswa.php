@@ -18,6 +18,7 @@
         <tr>
             <th>No</th>
             <th>Nama Lengkap</th>
+            <th>Status</th>
             <th>Aksi</th>
         </tr>
     </thead>
@@ -25,6 +26,7 @@
         <tr>
             <th>No</th>
             <th>Nama Lengkap</th>
+            <th>Status</th>
             <th>Aksi</th>
         </tr>
     </tfoot>
@@ -37,6 +39,25 @@
             <td><?= $no++ ?></td>
             <td><?= $siswa['nama_lengkap'] ?></td>
             <td>
+            <?php if ($siswa['status'] == 1): ?>
+<span class="badge badge-warning">Belum Upload Dokumen</span>
+<?php elseif ($siswa['status'] == 2): ?>
+    <span class="badge badge-primary">Menunggu Pembayaran Formulir</span>
+<?php elseif ($siswa['status'] == 3): ?>
+    <span class="badge badge-success">Pembayaran Formulir Berhasil, Menunggu Pembayaran Biaya Masuk</span>
+<?php elseif ($siswa['status'] == 4): ?>
+    <span class="badge badge-danger">Formulir Ditolak</span>
+<?php elseif ($siswa['status'] == 5): ?>
+    <span class="badge badge-danger">Ada Kesalahan Pembayaran Biaya Masuk, Harap Hubungi Admin</span>
+<?php elseif ($siswa['status'] == 6): ?>
+    <span class="badge badge-success">Pembayaran Biaya Masuk Berhasil</span>
+<?php elseif ($siswa['status'] == 7): ?>
+    <span class="badge badge-warning">Menunggu Validasi Pembayaran Formulir</span>
+<?php elseif ($siswa['status'] == 8): ?>
+    <span class="badge badge-warning">Menunggu Validasi Pembayaran Biaya Masuk</span>
+<?php endif; ?>
+                </td>
+            <td>
             <button type="button" class="btn btn-info btn-sm" onclick="detailSiswa(<?= $siswa['idsiswa'] ?>)">
     <i class="fas fa-info"></i> Detail
 </button>
@@ -47,13 +68,14 @@
 </button>
 
 <?php elseif ($siswa['status'] == 2): ?>
-    <button type="button" class="btn btn-warning btn-sm" onclick="pembayaranFormulir(<?= $siswa['idsiswa'] ?>)">
-        <i class="fas fa-money-bill"></i> Pembayaran Formulir
-    </button>
+    <button type="button" class="btn btn-warning btn-sm" onclick="window.location.href='<?= site_url('pembayaran/indexPembayaran') ?>'">
+    <i class="fas fa-money-bill"></i> Pembayaran Formulir
+</button>
+
 <?php elseif ($siswa['status'] == 3): ?>
-    <button type="button" class="btn btn-success btn-sm" onclick="pembayaranBiayaMasuk(<?= $siswa['idsiswa'] ?>)">
-        <i class="fas fa-money-bill"></i> Pembayaran Biaya Masuk
-    </button>
+    <button type="button" class="btn btn-success btn-sm" onclick="window.location.href='<?= site_url('pembayaran/indexPembayaran') ?>'">
+    <i class="fas fa-money-bill"></i> Pembayaran Biaya Masuk
+</button>
 <?php endif; ?>
 
             </td>
