@@ -40,6 +40,38 @@ class Pembayaran_model extends CI_Model {
         $this->db->where('idsiswa', $idsiswa);
         return $this->db->update('tbl_siswa', $data);
     }
+
+    public function insertKategori($data)
+    {
+        return $this->db->insert('tbl_kategori_bms', $data);
+    }
+
+    public function getKategoriData()
+{
+    return $this->db->get('tbl_kategori_bms')->result_array();
+}
+
+public function getKategoriById($id)
+{
+    return $this->db->get_where('tbl_kategori_bms', array('idbms' => $id))->row_array();
+}
+
+public function updateKategori($id, $data)
+{
+    $this->db->where('idbms', $id);
+    return $this->db->update('tbl_kategori_bms', $data);
+}
+
+public function hapusKategori($id)
+{
+    $this->db->where('idbms', $id);
+    $this->db->delete('tbl_kategori_bms');
+    
+    return $this->db->affected_rows() > 0;
+}
+
+
+
     
 
 }

@@ -88,5 +88,78 @@ class Pembayaran extends CI_Controller {
         redirect('pembayaran/indexFormulirAdmin');
     }
 
+    public function indexKategoriBiaya()
+    {
+        $this->load->model('Pembayaran_model');
+        $data['data_kategori'] = $this->Pembayaran_model->getKategoriData();
+    
+        $this->load->view('layout/dash_header');
+        $this->load->view('pembayaran/kategoriBiaya', $data); // Kirim data kategori biaya ke view
+        $this->load->view('layout/dash_footer');
+    }
+    
+    
+    public function TambahKategori()
+    {
+        // Konfigurasi aturan validasi
+        $this->form_validation->set_rules('nama_kategori', 'Nama Kategori', 'required');
+        $this->form_validation->set_rules('total_biaya', 'Total Biaya', 'required|numeric');
+    
+        if ($this->form_validation->run() == false) {
+            $this->session->set_flashdata('error_message', validation_errors());
+        } else {
+            $data = array(
+                'nama_bms' => $this->input->post('nama_kategori'),
+                'detail_bms' => $this->input->post('keterangan'),
+                'total_bms' => $this->input->post('total_biaya')
+            );
+    
+            if ($this->Pembayaran_model->insertKategori($data)) {
+                $this->session->set_flashdata('success_message', 'Kategori biaya berhasil ditambahkan.');
+            } else {
+                $this->session->set_flashdata('error_message', 'Gagal menambahkan kategori biaya.');
+            }
+        }
+    
+        redirect('pembayaran/indexKategoriBiaya');
+    }
+
+    public function getKategoriById($id)
+{
+    $kategori = $this->Pembayaran_model->getKategoriById($id);
+    echo json_encode($kategori);
+}
+
+public function EditKategori()
+{
+    $id = $this->input->post('idbms');
+    $data = array(
+        'nama_bms' => $this->input->post('nama_kategori'),
+        'detail_bms' => $this->input->post('keterangan'),
+        'total_bms' => $this->input->post('total_biaya')
+    );
+
+    if ($this->Pembayaran_model->updateKategori($id, $data)) {
+        $this->session->set_flashdata('success_message', 'Kategori biaya berhasil diupdate.');
+    } else {
+        $this->session->set_flashdata('error_message', 'Gagal mengupdate kategori biaya.');
+    }
+
+    redirect('pembayaran/indexKategoriBiaya');
+}
+
+public function hapusKategori($id)
+{
+    $result = $this->Pembayaran_model->hapusKategori($id);
+    if ($result) {
+        $this->session->set_flashdata('success_message', 'Kategori biaya berhasil dihapus.');
+    } else {
+        $this->session->set_flashdata('error_message', 'Gagal menghapus kategori biaya.');
+    }
+    
+    redirect('pembayaran/indexKategoriBiaya');
+}
+
+    
 
 }
