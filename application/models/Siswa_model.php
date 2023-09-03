@@ -102,6 +102,12 @@ public function getDokumentByIdsiswa($idsiswa) {
     }
 }
 
+public function updateStatus2($idsiswa, $updateData)
+{
+    $this->db->where('idsiswa', $idsiswa);
+    $this->db->update('tbl_siswa', $updateData);
 
+    return $this->db->affected_rows() > 0;
+}
 
 }

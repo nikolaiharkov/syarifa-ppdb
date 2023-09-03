@@ -60,6 +60,11 @@
         <button type="button" class="btn btn-warning btn-sm" onclick="showPembayaranModal(<?php echo $siswa['idsiswa']; ?>)">
     <i class="fas fa-money-bill"></i> Pembayaran Formulir
 </button>
+<?php elseif ($siswa['status'] == 3): ?>
+    <button type="button" class="btn btn-success btn-sm" onclick="showPembayaranBMS(<?php echo $siswa['idsiswa']; ?>)">
+    <i class="fas fa-money-bill"></i> Pembayaran Biaya Masuk
+</button>
+
 <?php endif; ?>
 
         </td>
@@ -92,6 +97,15 @@
                 <form id="uploadForm" action="<?php echo site_url('pembayaran/uploadBuktiBayarFormulir'); ?>" method="post" enctype="multipart/form-data">
                     <input type="hidden" id="idsiswa" name="idsiswa" value="">
                     <div class="form-group">
+    <label for="kategori_bms">Pilih Kategori</label>
+    <select class="form-control" id="kategori_bms" name="kategori_bms">
+        <?php foreach ($kategori_bms as $kategori): ?>
+            <option value="<?= $kategori['idbms'] ?>"><?= $kategori['nama_bms'] ?></option>
+        <?php endforeach; ?>
+    </select>
+</div>
+
+                    <div class="form-group">
                         <label for="buktiPembayaran">Upload Bukti Pembayaran</label>
                         <input type="file" class="form-control" id="buktiPembayaran" name="buktiPembayaran" required>
                     </div>
@@ -101,6 +115,27 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="pembayaranBMSModal" tabindex="-1" role="dialog" aria-labelledby="pembayaranBMSModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pembayaranBMSModalLabel">Pembayaran Biaya Masuk</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Konten modal -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                <!-- Tombol submit form akan ditambahkan di sini -->
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- Tambahkan di bagian yang sesuai -->
 <?php if ($this->session->flashdata('success_message')) : ?>
@@ -122,4 +157,52 @@
         modal.modal('show');
     }
 </script>
+
+<script>
+function formatRupiah(angka) {
+    var reverse = angka.toString().split('').reverse().join('');
+    var ribuan = reverse.match(/\d{1,3}/g);
+    var formatted = ribuan.join('.').split('').reverse().join('');
+    return 'Rp ' + formatted;
+}
+
+function showPembayaranBMS(idsiswa) {
+    // Tampilkan modal pembayaranBMSModal
+    $('#pembayaranBMSModal').modal('show');
+
+    // Lakukan permintaan AJAX untuk mengambil data dari tbl_kategori_bms
+    $.ajax({
+        url: '<?= base_url('pembayaran/getDataPembayaranBMS/') ?>' + idsiswa, // Ganti URL sesuai dengan controller Anda
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            // Isi modal dengan data yang diambil
+            var modalContent = `
+                <p>Kelas yang dipilih: ${data.nama_bms}</p>
+                <p>Detail Biaya: ${data.detail_bms}</p>
+                <p>Total Biaya: ${formatRupiah(data.total_bms)}</p>
+                <p>Biaya yang harus dibayarkan: ${formatRupiah(data.biaya_harus_dibayarkan)}</p>
+                <form id="uploadForm" action="<?php echo site_url('pembayaran/uploadBuktiBayarBMS'); ?>" method="post" enctype="multipart/form-data">
+                    <input type="hidden" id="idsiswa" name="idsiswa" value="${idsiswa}">
+                    <div class="form-group">
+                        <label for="buktiPembayaran">Upload Bukti Transfer</label>
+                        <input type="file" class="form-control-file" id="buktiPembayaran" name="buktiPembayaran" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </form>
+            `;
+
+            // Isi konten modal dengan data yang diambil
+            $('.modal-body').html(modalContent);
+        },
+        error: function () {
+            alert('Gagal mengambil data biaya masuk.');
+        }
+    });
+}
+
+
+</script>
+
+
 
